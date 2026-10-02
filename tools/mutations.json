@@ -1,0 +1,398 @@
+[
+  {
+    "name": "GPU の1回の誤差を半分にする",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "GpuOperationError = Math.ScaleB(1d, -23);",
+    "replace": "GpuOperationError = Math.ScaleB(1d, -24);"
+  },
+  {
+    "name": "CPU の1回の誤差を倍にする",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "CpuOperationError = Math.ScaleB(1d, -24);",
+    "replace": "CpuOperationError = Math.ScaleB(1d, -23);"
+  },
+  {
+    "name": "ULP の単位を倍にする",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "UnitInLastPlace = Math.ScaleB(1d, -23);",
+    "replace": "UnitInLastPlace = Math.ScaleB(1d, -22);"
+  },
+  {
+    "name": "非正規化数の境目をずらす",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "FlushLimit = Math.ScaleB(1d, -126);",
+    "replace": "FlushLimit = Math.ScaleB(1d, -125);"
+  },
+  {
+    "name": "Gamma の分母を落とす",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "return product / (1d - product);",
+    "replace": "return product;"
+  },
+  {
+    "name": "Gamma の発散の境目を緩める",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "if (product >= 1d)",
+    "replace": "if (product > 1d)"
+  },
+  {
+    "name": "負の誤差を許す",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "operationError < 0d",
+    "replace": "operationError < -1d"
+  },
+  {
+    "name": "非有限の誤差を許す",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "!double.IsFinite(operationError) || ",
+    "replace": ""
+  },
+  {
+    "name": "負の演算の回数を許す",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "ArgumentOutOfRangeException.ThrowIfNegative(operations);",
+    "replace": ""
+  },
+  {
+    "name": "NaN の距離を0にする",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "return long.MaxValue;",
+    "replace": "return 0L;"
+  },
+  {
+    "name": "負の数の並べ方を誤る",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "int.MinValue - bits",
+    "replace": "-bits"
+  },
+  {
+    "name": "符号を無視する",
+    "file": "ComputeGuard/ComputeErrorModel.cs",
+    "find": "return bits < 0 ? int.MinValue - bits : bits;",
+    "replace": "return bits & int.MaxValue;"
+  },
+  {
+    "name": "ULP の数を掛けない",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": "Ulps * ComputeErrorModel.UnitInLastPlace * Scale",
+    "replace": "ComputeErrorModel.UnitInLastPlace * Scale"
+  },
+  {
+    "name": "尺度を掛けない",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": "Ulps * ComputeErrorModel.UnitInLastPlace * Scale",
+    "replace": "Ulps * ComputeErrorModel.UnitInLastPlace"
+  },
+  {
+    "name": "非正規化数の分を足さない",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": " + FlushedOperations * ComputeErrorModel.FlushLimit",
+    "replace": ""
+  },
+  {
+    "name": "負の ULP の数を許す",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": "if (ulps < 0d)",
+    "replace": "if (ulps < -1d)"
+  },
+  {
+    "name": "負の尺度を許す",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": "if (scale < 0d)",
+    "replace": "if (scale < -1d)"
+  },
+  {
+    "name": "負の非正規化数の回数を許す",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": "ArgumentOutOfRangeException.ThrowIfNegative(flushedOperations);",
+    "replace": ""
+  },
+  {
+    "name": "有限でない許容値を許す",
+    "file": "ComputeGuard/ComputeTolerance.cs",
+    "find": "if (!double.IsFinite(Absolute))",
+    "replace": "if (false)"
+  },
+  {
+    "name": "境目を不合格にする",
+    "file": "ComputeGuard/ComputeCheck.cs",
+    "find": "<= Tolerance.Absolute",
+    "replace": "< Tolerance.Absolute"
+  },
+  {
+    "name": "誤差の向きを片側だけ見る",
+    "file": "ComputeGuard/ComputeCheck.cs",
+    "find": "Math.Abs(Measured - Reference)",
+    "replace": "(Measured - Reference)"
+  },
+  {
+    "name": "数えた値を見ない",
+    "file": "ComputeGuard/ComputeCheck.cs",
+    "find": "return new ComputeCheck(name, count, 0d, ComputeTolerance.Exact);",
+    "replace": "return new ComputeCheck(name, 0d, 0d, ComputeTolerance.Exact);"
+  },
+  {
+    "name": "検査の名前の確認を外す",
+    "file": "ComputeGuard/ComputeCheck.cs",
+    "find": "ArgumentException.ThrowIfNullOrWhiteSpace(name);",
+    "replace": ""
+  },
+  {
+    "name": "ソフトウェアの旗を読まない",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "isSoftware = (extended.Description1.Flags & AdapterFlags.Software) != 0;",
+    "replace": "isSoftware = false;"
+  },
+  {
+    "name": "UMA の容量を取り違える",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "isUma ? description.SharedSystemMemory : description.DedicatedVideoMemory",
+    "replace": "isUma ? description.DedicatedVideoMemory : description.SharedSystemMemory"
+  },
+  {
+    "name": "ドライバーの版を読まない",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "? version : 0L",
+    "replace": "? 0L : 0L"
+  },
+  {
+    "name": "LUID を読まない",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "description.Luid,",
+    "replace": "0L,"
+  },
+  {
+    "name": "アダプターの確認を外す",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "ArgumentNullException.ThrowIfNull(adapter);",
+    "replace": ""
+  },
+  {
+    "name": "サブシステムの桁を減らす",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "{SubsystemId:X8}",
+    "replace": "{SubsystemId:X4}"
+  },
+  {
+    "name": "版の欄の位置を誤る",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "(DriverVersion >> (VersionFieldBits * 2))",
+    "replace": "(DriverVersion >> VersionFieldBits)"
+  },
+  {
+    "name": "版の欄の幅を誤る",
+    "file": "ComputeGuard/ComputeDevice.cs",
+    "find": "VersionFieldMask = 0xFFFF;",
+    "replace": "VersionFieldMask = 0xFF;"
+  },
+  {
+    "name": "中央をずらす",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "new ComputeSample(width / 2, height / 2)",
+    "replace": "new ComputeSample(width / 2, height / 3)"
+  },
+  {
+    "name": "右下の角をずらす",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "3 => new ComputeSample(width - 1, height - 1),",
+    "replace": "3 => new ComputeSample(width - 2, height - 1),"
+  },
+  {
+    "name": "縦と横に同じ乱数を使う",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "var y = (int)(((state & LowerHalf) * (ulong)height) >> HalfBits);",
+    "replace": "var y = (int)(((state >> HalfBits) * (ulong)height) >> HalfBits);"
+  },
+  {
+    "name": "鍵を使わない",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "Mix(key + (ulong)index * Increment)",
+    "replace": "Mix((ulong)index * Increment)"
+  },
+  {
+    "name": "番号を使わない",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "Mix(key + (ulong)index * Increment)",
+    "replace": "Mix(key + Increment)"
+  },
+  {
+    "name": "幅の確認を外す",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "ArgumentOutOfRangeException.ThrowIfNegativeOrZero(width);",
+    "replace": ""
+  },
+  {
+    "name": "高さの確認を外す",
+    "file": "ComputeGuard/ComputeSampling.cs",
+    "find": "ArgumentOutOfRangeException.ThrowIfNegativeOrZero(height);",
+    "replace": ""
+  },
+  {
+    "name": "検査を書かない",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "anomaly.Check is { } value",
+    "replace": "anomaly.Check is { } value && false"
+  },
+  {
+    "name": "検査の数値を現在の文化で書く",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "                CultureInfo.InvariantCulture,",
+    "replace": "                CultureInfo.CurrentCulture,"
+  },
+  {
+    "name": "アダプターの名前を書かない",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "アダプター={device.Description}",
+    "replace": "アダプター="
+  },
+  {
+    "name": "識別を書かない",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "識別={device.Identity}",
+    "replace": "識別="
+  },
+  {
+    "name": "ドライバーの版を書かない",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "ドライバー={device.DriverVersionText}",
+    "replace": "ドライバー="
+  },
+  {
+    "name": "作業量を書かない",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "作業量={workload.Width}x{workload.Height}",
+    "replace": "作業量="
+  },
+  {
+    "name": "原因を落とす",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": ": base(Describe(anomaly), innerException)",
+    "replace": ": base(Describe(anomaly))"
+  },
+  {
+    "name": "記録を残さない",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "Anomaly = anomaly;",
+    "replace": "Anomaly = null!;"
+  },
+  {
+    "name": "記録の確認を外す",
+    "file": "ComputeGuard/ComputeAnomaly.cs",
+    "find": "ArgumentNullException.ThrowIfNull(anomaly);",
+    "replace": ""
+  },
+  {
+    "name": "ソフトウェアのアダプターを GPU へ回す",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "if (candidate.IsSoftware)",
+    "replace": "if (false)"
+  },
+  {
+    "name": "メモリの上限ちょうどを越えたとみなす",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "if (workload.GpuMemoryBytes > candidate.MemoryCapacity * MemoryShare)",
+    "replace": "if (workload.GpuMemoryBytes >= candidate.MemoryCapacity * MemoryShare)"
+  },
+  {
+    "name": "メモリの割合を掛けない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "candidate.MemoryCapacity * MemoryShare",
+    "replace": "candidate.MemoryCapacity"
+  },
+  {
+    "name": "固定を先に確かめない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "if (cell.Health == ComputeHealth.Pinned)",
+    "replace": "if (false)"
+  },
+  {
+    "name": "自己試験を走らせない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "Qualify(candidate, workload, cell, selfTest);",
+    "replace": ""
+  },
+  {
+    "name": "自己試験の不合格で固定しない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "Pin(device, workload, cell, ComputeFailure.SelfTestFailed, check, null);",
+    "replace": ""
+  },
+  {
+    "name": "自己試験の例外で固定しない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "Pin(device, workload, cell, ComputeFailure.SelfTestFailed, null, exception);",
+    "replace": ""
+  },
+  {
+    "name": "自己試験に合格しても信頼しない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "cell.Trust();",
+    "replace": ""
+  },
+  {
+    "name": "判定の不合格で固定しない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "Pin(device, workload, CellOf(device.Luid), ComputeFailure.CheckFailed, check, null);",
+    "replace": ""
+  },
+  {
+    "name": "判定の不合格を合格と返す",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "                return false;",
+    "replace": "                return true;"
+  },
+  {
+    "name": "固定のたびに報告する",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "if (!cell.TryPin() || failure == ComputeFailure.ResourceExhausted)",
+    "replace": "if (failure == ComputeFailure.ResourceExhausted)"
+  },
+  {
+    "name": "資源の枯渇も報告する",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": " || failure == ComputeFailure.ResourceExhausted",
+    "replace": ""
+  },
+  {
+    "name": "呼び出し元のスタックを付けない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "ExceptionDispatchInfo.SetCurrentStackTrace(anomaly);",
+    "replace": ""
+  },
+  {
+    "name": "固定の判定を逆にする",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "!= (int)ComputeHealth.Pinned;",
+    "replace": "== (int)ComputeHealth.Pinned;"
+  },
+  {
+    "name": "アダプターごとに状態を分けない",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "cells.GetOrAdd(luid, static _ => new HealthCell());",
+    "replace": "cells.GetOrAdd(0L, static _ => new HealthCell());"
+  },
+  {
+    "name": "自己試験を同時に何度も走らせる",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "lock (cell.Gate)",
+    "replace": "if (cell.Gate is not null)"
+  },
+  {
+    "name": "報告の先の確認を外す",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "ArgumentNullException.ThrowIfNull(options.Report);",
+    "replace": ""
+  },
+  {
+    "name": "自己試験の確認を外す",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "ArgumentNullException.ThrowIfNull(selfTest);",
+    "replace": ""
+  },
+  {
+    "name": "最初から信頼する",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "private int health = (int)ComputeHealth.Untested;",
+    "replace": "private int health = (int)ComputeHealth.Trusted;"
+  }
+]
