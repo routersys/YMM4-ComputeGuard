@@ -1,0 +1,9 @@
+<Project>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ComputeGuard\**\*.cs"
+             Exclude="$(MSBuildThisFileDirectory)ComputeGuard\bin\**;$(MSBuildThisFileDirectory)ComputeGuard\obj\**"
+             LinkBase="ComputeGuard" />
+  </ItemGroup>
+
+</Project>

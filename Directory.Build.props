@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <YMM4DirPath>C:\Program Files\YukkuriMovieMaker_v4_Lite_Dev\</YMM4DirPath>
+    <DebugType>embedded</DebugType>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildThisFileDirectory)=./</PathMap>
+  </PropertyGroup>
+</Project>
