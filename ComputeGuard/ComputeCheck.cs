@@ -2,10 +2,7 @@ namespace ComputeGuard;
 
 internal readonly record struct ComputeCheck(string Name, double Measured, double Reference, ComputeTolerance Tolerance)
 {
-    public bool Passes =>
-        double.IsFinite(Measured)
-        && double.IsFinite(Reference)
-        && Math.Abs(Measured - Reference) <= Tolerance.Absolute;
+    public bool Passes => Math.Abs(Measured - Reference) <= Tolerance.Absolute;
 
     public static ComputeCheck Count(string name, long count)
     {
