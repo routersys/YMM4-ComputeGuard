@@ -186,6 +186,28 @@ public sealed class ComputeGuardianSelectionTests
     }
 
     [Fact]
+    public void ASelfTestThatReturnsNothingPinsTheDeviceOnce()
+    {
+        var (guardian, reports) = CreateGuardian();
+        var runs = 0;
+        IReadOnlyList<ComputeCheck> SelfTest(ComputeDevice device)
+        {
+            runs++;
+            return null!;
+        }
+
+        var first = guardian.Select(Device(), Workload, SelfTest);
+        var second = guardian.Select(Device(), Workload, SelfTest);
+
+        Assert.Equal(new ComputeDecision(ComputeRoute.Cpu, ComputeRouteReason.Pinned), first);
+        Assert.Equal(new ComputeDecision(ComputeRoute.Cpu, ComputeRouteReason.Pinned), second);
+        Assert.Equal(1, runs);
+        var report = Assert.Single(reports);
+        Assert.Equal(ComputeFailure.SelfTestFailed, report.Anomaly.Failure);
+        Assert.NotNull(report.InnerException);
+    }
+
+    [Fact]
     public void ThePinComesBeforeEveryOtherReason()
     {
         var (guardian, _) = CreateGuardian();
