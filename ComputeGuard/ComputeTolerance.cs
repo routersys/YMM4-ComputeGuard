@@ -19,6 +19,11 @@ internal readonly record struct ComputeTolerance
         Ulps = ulps;
         Scale = scale;
         FlushedOperations = flushedOperations;
+
+        if (!double.IsFinite(Absolute))
+        {
+            throw new ArgumentOutOfRangeException(nameof(scale));
+        }
     }
 
     public static ComputeTolerance Exact => default;
