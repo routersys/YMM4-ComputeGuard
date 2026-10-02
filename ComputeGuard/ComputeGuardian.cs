@@ -97,10 +97,17 @@ internal sealed class ComputeGuardian
                 return;
             }
 
-            IReadOnlyList<ComputeCheck> checks;
+            ComputeCheck? failedCheck = null;
             try
             {
-                checks = selfTest(device);
+                foreach (var check in selfTest(device))
+                {
+                    if (!check.Passes)
+                    {
+                        failedCheck = check;
+                        break;
+                    }
+                }
             }
             catch (Exception exception)
             {
@@ -108,13 +115,10 @@ internal sealed class ComputeGuardian
                 return;
             }
 
-            foreach (var check in checks)
+            if (failedCheck is not null)
             {
-                if (!check.Passes)
-                {
-                    Pin(device, workload, cell, ComputeFailure.SelfTestFailed, check, null);
-                    return;
-                }
+                Pin(device, workload, cell, ComputeFailure.SelfTestFailed, failedCheck, null);
+                return;
             }
 
             cell.Trust();

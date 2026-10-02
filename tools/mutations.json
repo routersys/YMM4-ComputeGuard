@@ -314,7 +314,13 @@
   {
     "name": "自己試験の不合格で固定しない",
     "file": "ComputeGuard/ComputeGuardian.cs",
-    "find": "Pin(device, workload, cell, ComputeFailure.SelfTestFailed, check, null);",
+    "find": "Pin(device, workload, cell, ComputeFailure.SelfTestFailed, failedCheck, null);",
+    "replace": ""
+  },
+  {
+    "name": "自己試験の不合格を見逃す",
+    "file": "ComputeGuard/ComputeGuardian.cs",
+    "find": "failedCheck = check;",
     "replace": ""
   },
   {
