@@ -55,4 +55,22 @@ public sealed class ComputeToleranceTests
 
         Assert.Throws<ArgumentOutOfRangeException>(create);
     }
+
+    [Fact]
+    public void AToleranceThatOverflowsIsRejected()
+    {
+        Action create = () => _ = new ComputeTolerance(1e300, 1e300, 0);
+
+        Assert.Throws<ArgumentOutOfRangeException>(create);
+    }
+
+    [Fact]
+    public void ALargeButFiniteToleranceIsAccepted()
+    {
+        var tolerance = new ComputeTolerance(1d, 1e300, 0);
+
+        var absolute = tolerance.Absolute;
+
+        Assert.True(double.IsFinite(absolute));
+    }
 }
