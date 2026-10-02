@@ -2,7 +2,7 @@ namespace ComputeGuard.Tests;
 
 public sealed class ComputeGuardianJudgementTests
 {
-    static readonly ComputeWorkload Workload = new(1920, 1080, 1000L, 7UL);
+    static readonly ComputeWorkload Workload = new(1920, 1080, 1000L);
 
     static readonly ComputeCheck PassingCheck = new("sum.R", 10.0, 10.0, new ComputeTolerance(8d, 10d, 0));
 

@@ -7,7 +7,7 @@ public sealed class ComputeAnomalyTests
     static readonly ComputeDevice Device =
         new(1L, 0x8086, 0xA7A0, 0x00BB1E26, 4, (32L << 48) | (101L << 16) | 7085L, false, 1L << 30, "Test Adapter");
 
-    static readonly ComputeWorkload Workload = new(1952, 1112, 16777216L, 7UL);
+    static readonly ComputeWorkload Workload = new(1952, 1112, 16777216L);
 
     static readonly ComputeCheck FailedCheck = new("spot[3].R", 1.5, 1.25, new ComputeTolerance(8d, 1d, 0));
 

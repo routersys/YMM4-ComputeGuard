@@ -2,7 +2,7 @@ namespace ComputeGuard.Tests;
 
 public sealed class ComputeGuardianSelectionTests
 {
-    static readonly ComputeWorkload Workload = new(1920, 1080, 1000L, 7UL);
+    static readonly ComputeWorkload Workload = new(1920, 1080, 1000L);
 
     static readonly ComputeCheck PassingCheck = ComputeCheck.Count("determinism", 0L);
 
