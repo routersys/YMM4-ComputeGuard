@@ -164,19 +164,6 @@ public sealed class ComputeGuardianJudgementTests
     }
 
     [Fact]
-    public void TheReportCarriesTheStackOfTheCaller()
-    {
-        var (guardian, reports) = CreateTrustedGuardian();
-
-        guardian.Judge(Device(), Workload, [FirstFailingCheck]);
-
-        var report = Assert.Single(reports);
-        Assert.NotNull(report.StackTrace);
-        Assert.Contains(nameof(ComputeGuardian.Judge), report.StackTrace);
-        Assert.Contains(nameof(TheReportCarriesTheStackOfTheCaller), report.StackTrace);
-    }
-
-    [Fact]
     public void APassingJudgementAllocatesNothing()
     {
         var (guardian, _) = CreateTrustedGuardian();

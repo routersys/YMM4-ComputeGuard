@@ -360,12 +360,6 @@
     "replace": ""
   },
   {
-    "name": "呼び出し元のスタックを付けない",
-    "file": "ComputeGuard/ComputeGuardian.cs",
-    "find": "ExceptionDispatchInfo.SetCurrentStackTrace(anomaly);",
-    "replace": ""
-  },
-  {
     "name": "固定の判定を逆にする",
     "file": "ComputeGuard/ComputeGuardian.cs",
     "find": "!= (int)ComputeHealth.Pinned;",

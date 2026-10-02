@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Runtime.ExceptionServices;
 
 namespace ComputeGuard;
 
@@ -132,9 +131,7 @@ internal sealed class ComputeGuardian
             return;
         }
 
-        var anomaly = new ComputeAnomalyException(new ComputeAnomaly(device, workload, failure, check), exception);
-        ExceptionDispatchInfo.SetCurrentStackTrace(anomaly);
-        report(anomaly);
+        report(new ComputeAnomalyException(new ComputeAnomaly(device, workload, failure, check), exception));
     }
 
     private sealed class HealthCell
