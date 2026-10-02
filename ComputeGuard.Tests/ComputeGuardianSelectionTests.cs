@@ -223,6 +223,18 @@ public sealed class ComputeGuardianSelectionTests
     }
 
     [Fact]
+    public void ASelfTestIsRequired()
+    {
+        var (guardian, reports) = CreateGuardian();
+
+        Action select = () => guardian.Select(Device(), Workload, null!);
+
+        Assert.Throws<ArgumentNullException>(select);
+        Assert.Equal(ComputeHealth.Untested, guardian.HealthOf(1L));
+        Assert.Empty(reports);
+    }
+
+    [Fact]
     public void ATrustedSelectionAllocatesNothing()
     {
         var (guardian, _) = CreateGuardian();
