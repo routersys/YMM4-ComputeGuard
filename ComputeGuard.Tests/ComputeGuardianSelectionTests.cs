@@ -186,6 +186,22 @@ public sealed class ComputeGuardianSelectionTests
     }
 
     [Fact]
+    public void ThePinComesBeforeEveryOtherReason()
+    {
+        var (guardian, _) = CreateGuardian();
+        var software = Device(1L, isSoftware: true);
+        var small = Device(2L, capacity: 1000L);
+        guardian.Fail(software, Workload, ComputeFailure.DeviceLost, null);
+        guardian.Fail(small, Workload, ComputeFailure.DeviceLost, null);
+
+        var softwareDecision = guardian.Select(software, Workload, PassingSelfTest);
+        var smallDecision = guardian.Select(small, Workload, PassingSelfTest);
+
+        Assert.Equal(new ComputeDecision(ComputeRoute.Cpu, ComputeRouteReason.Pinned), softwareDecision);
+        Assert.Equal(new ComputeDecision(ComputeRoute.Cpu, ComputeRouteReason.Pinned), smallDecision);
+    }
+
+    [Fact]
     public void ConcurrentSelectionsRunTheSelfTestOnce()
     {
         var (guardian, _) = CreateGuardian();
