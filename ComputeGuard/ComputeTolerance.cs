@@ -4,12 +4,12 @@ internal readonly record struct ComputeTolerance
 {
     public ComputeTolerance(double ulps, double scale, int flushedOperations)
     {
-        if (!double.IsFinite(ulps) || ulps < 0d)
+        if (ulps < 0d)
         {
             throw new ArgumentOutOfRangeException(nameof(ulps));
         }
 
-        if (!double.IsFinite(scale) || scale < 0d)
+        if (scale < 0d)
         {
             throw new ArgumentOutOfRangeException(nameof(scale));
         }
